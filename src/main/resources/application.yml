@@ -1,0 +1,51 @@
+server:
+  port: 8080
+
+spring:
+  cloud:
+    gateway:
+      routes:
+
+        # *************************   STOCK   *************************
+
+        - id: stock
+          uri: ${STOCK_ROUTE}
+          predicates:
+            - Path=${STOCK_PREDICATE_PATH}
+
+        # *************************   SALES   *************************
+
+        - id: sales
+          uri: ${SALES_ROUTE}
+          predicates:
+            - Path=${SALES_PREDICATE_PATH}
+
+        # *************************   DELIVERY   **********************
+
+        - id: sales
+          uri: ${DELIVERY_ROUTE}
+          predicates:
+            - Path=${DELIVERY_PREDICATE_PATH}
+
+springdoc:
+  api-docs:
+    enabled: true
+  swagger-ui:
+    enabled: true
+    config-url: ${SWAGGER_CONFIG_URL:/v3/api-docs/swagger-config}
+    url: ${SWAGGER_URL:/v3/api-docs}
+    disable-swagger-default-url: true
+    urls:
+      - url: /shop/stock/api/v3/api-docs
+        name: shop-stock
+
+      - url: /shop/sales/api/v3/api-docs
+        name: shop-sales
+
+      - url: /shop/delivery/api/v3/api-docs
+        name: shop-delivery
+
+swagger:
+  server:
+    url: ${SWAGGER_SERVER_URL:/}
+    description: ${SWAGGER_SERVER_DESCRIPTION:Локальный инстанс}

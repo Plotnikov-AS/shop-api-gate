@@ -1,0 +1,58 @@
+plugins {
+    id 'java'
+    id 'org.springframework.boot' version '3.2.2'
+    id 'io.spring.dependency-management' version '1.1.4'
+    id "io.freefair.lombok" version "8.4"
+}
+
+group = 'ru.mai.shop'
+version = '0.0.1'
+java {
+    sourceCompatibility = '21'
+}
+
+configurations {
+    compileOnly {
+        extendsFrom annotationProcessor
+    }
+}
+
+allprojects {
+    repositories {
+        mavenCentral()
+        mavenLocal()
+    }
+}
+
+dependencies {
+    implementation 'org.springframework.cloud:spring-cloud-starter-gateway'
+    implementation 'org.springframework.boot:spring-boot-starter-actuator'
+    implementation "org.modelmapper:modelmapper:3.1.0"
+    implementation "org.springdoc:springdoc-openapi-starter-webflux-ui:2.2.0"
+
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testImplementation 'org.springframework.security:spring-security-test'
+    testImplementation 'org.testcontainers:junit-jupiter'
+}
+
+sourceSets {
+    generated {
+        java {
+            srcDirs = ['src/generated/java']
+        }
+    }
+}
+
+dependencyManagement {
+    imports {
+        mavenBom "org.springframework.cloud:spring-cloud-dependencies:2023.0.0"
+    }
+}
+
+test {
+    useJUnitPlatform()
+}
+
+bootJar {
+    duplicatesStrategy(DuplicatesStrategy.EXCLUDE)
+}
